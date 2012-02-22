@@ -5,7 +5,6 @@ from pynmea.nmea import (NMEASentence, GPAAM, GPALM, GPAPA, GPAPB, GPBEC, GPBOD,
                          GPTRF, GPVBW, GPVTG, GPWCV, GPWNC, GPWPL, GPXTE,
                          PGRME, PGRMZ, PGRMM)
 
-from pynmea.utils import checksum_calc
 
 class TestNMEAParse(unittest.TestCase):
     def setUp(self):
@@ -1260,36 +1259,3 @@ class TestPGRMZ(unittest.TestCase):
         self.assertEqual("492", p.altitude)
         self.assertEqual("f", p.altitude_unit)
         self.assertEqual("3", p.pos_fix_dim)
-
-
-class TestUtils(unittest.TestCase):
-    def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
-
-    def test_checksum_calc(self):
-        nmea_str1 = 'GPGLL,3751.65,S,14507.36,E'
-        nmea_str2 = '$GPGLL,3751.65,S,14507.36,E'
-        nmea_str3 = 'GPGLL,3751.65,S,14507.36,E*77'
-        nmea_str4 = '$GPGLL,3751.65,S,14507.36,E*77'
-        nmea_str5 = '$GPGLL,3751.65,S,14507.36,E*'
-        nmea_str6 = 'GPGLL,3751.65,S,14507.36,E*'
-        nmea_str7 = '$GPHDT,227.66,T*02'
-
-        result1 = checksum_calc(nmea_str1)
-        result2 = checksum_calc(nmea_str2)
-        result3 = checksum_calc(nmea_str3)
-        result4 = checksum_calc(nmea_str4)
-        result5 = checksum_calc(nmea_str5)
-        result6 = checksum_calc(nmea_str6)
-        result7 = checksum_calc(nmea_str7)
-
-        self.assertEquals(result1, '77')
-        self.assertEquals(result2, '77')
-        self.assertEquals(result3, '77')
-        self.assertEquals(result4, '77')
-        self.assertEquals(result5, '77')
-        self.assertEquals(result6, '77')
-        self.assertEquals(result7, '02')
